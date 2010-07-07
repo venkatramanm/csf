@@ -35,7 +35,8 @@ end
  p = ConstraintSolver::Problem.new 
 
 * Registering problem variables and constraints
- p.variables = [ConstraintSolver::IntegerVariable.new("x",0,5),ConstraintSolver::IntegerVariable.new("y",0,5)]
+
+    p.variables = [ConstraintSolver::IntegerVariable.new("x",0,5),ConstraintSolver::IntegerVariable.new("y",0,5)]
     p.add_constraint do |variable_being_assigned,assigned_variables,un_assigned_variables| 
       target_sum = 6
       target_sum -= variable_being_assigned.value 
@@ -58,6 +59,7 @@ end
         end
       end
     end
+
 
 * Create solver for the problem
  s = ConstraintSolver::Solver.new(p) 

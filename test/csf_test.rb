@@ -7,7 +7,7 @@ require 'test/unit'
 require 'csf'
 
 
-class Permutation < Test::Unit::TestCase
+class CSFTest < Test::Unit::TestCase
   def test_cartesian
     solver = ConstraintSolver::Solver.new(@problem)
     i = 0

@@ -3,6 +3,8 @@
 
 module ConstraintSolver
   autoload :ConstraintViolation ,'csf/constraint_violation'
+  autoload :ProcConstraint ,'csf/constraint_violation'
+  autoload :AbstractConstraint ,'csf/constraint_violation'
   autoload :Problem ,'csf/problem'
   autoload :Solver , 'csf/solver'
   autoload :Variable , 'csf/variable'

@@ -65,7 +65,7 @@ module ConstraintSolver
     def try_next_value(variable_assignment)
       variable_assignment.value
       problem.constraints.each do |c|
-        c.call(variable_assignment,assigned_variables,unassigned_variables)
+        c.propagate(variable_assignment,assigned_variables,unassigned_variables)
       end
     end
 

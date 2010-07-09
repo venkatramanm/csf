@@ -55,12 +55,17 @@ module ConstraintSolver
     def invalidate
       checkpoints.last.domain.pop
     end
+    def attribute
+      checkpoints.last.attribute
+    end
   end
 
   class Checkpoint
     attr_accessor :domain
+    attr_accessor :attribute
     def initialize(domain)
       self.domain = domain.clone
+      self.attribute = {} 
     end
   end
 

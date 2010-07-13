@@ -32,11 +32,11 @@ end
 ## Example
 ### Finding integer solutions to  x + y = 6, domain(x) = [0,1,2,3,4,5] , domain(y) = [0,1,2,3,4,5]
 * Creating the problem
- -
+
  problem = ConstraintSolver::Problem.new 
- -
+ 
 * Registering problem variables and constraints
- -
+
     problem.variables = [ConstraintSolver::IntegerVariable.new("x",0,5),ConstraintSolver::IntegerVariable.new("y",0,5)]
     problem.add_constraint do |variable_being_assigned,assigned_variables,un_assigned_variables| 
       target_sum = 6
@@ -60,7 +60,6 @@ end
         end
       end
     end
- -
 
 * Create solver for the problem
  solver = ConstraintSolver::Solver.new(problem) 

@@ -11,6 +11,7 @@ Think of a combination lock with n digits, how would you guess the lock sequence
 * solver.next_solution can be called as many times as the number of solutions you need. 
  
 ## Solver Pseudo code for some basic understanding
+<pre><nowiki>
 for each variable in unassigned variables
   for each value in pruned domain of variable
     assign variable = value 
@@ -27,7 +28,7 @@ for each variable in unassigned variables
     end
   end
 end
-
+</nowiki></pre>
 
 ## Example
 ### Finding integer solutions to  x + y = 6, domain(x) = [0,1,2,3,4,5] , domain(y) = [0,1,2,3,4,5]

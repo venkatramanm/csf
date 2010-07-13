@@ -107,12 +107,9 @@ module ConstraintSolver
         ret
       end
     end
+
     def to_hash(assignments)
-        a_hash = {}
-        assignments.each do |assignment|
-          a_hash[assignment.variable.id] = assignment.value
-        end
-        a_hash
+      problem.to_hash(assignments)
     end
   end
 

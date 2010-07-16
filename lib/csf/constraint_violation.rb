@@ -6,7 +6,7 @@ module ConstraintSolver
   end
   class AbstractConstraint
     def propagate(variable_assignment,assigned_variables,unassigned_variables)
-      raise Exception.new ("method propagate not implemented")
+      raise Exception.new("method propagate not implemented")
     end
   end
   class ProcConstraint < AbstractConstraint

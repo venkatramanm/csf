@@ -19,12 +19,12 @@ module ConstraintSolver
     def add_constraint(constraint,&constraint_proc)
       if (constraint)
         if block_given? then
-          raise Exception.new ("Only one of constraint object or block can be passed")
+          raise Exception.new("Only one of constraint object or block can be passed")
         end
         constraints.push(constraint)
       else
         unless block_given? then
-          raise Exception.new ("Atleast one of constraint object or block can be passed")
+          raise Exception.new("Atleast one of constraint object or block can be passed")
         end
         constraints.push(ProcConstraint.new(&constraint_proc))
       end

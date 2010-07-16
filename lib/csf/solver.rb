@@ -28,22 +28,18 @@ module ConstraintSolver
     end
 
     def solve_variables
-      if unassigned_variables.empty? 
-        return 
-      end
+      while !unassigned_variables.empty?
+        sort_unassigned_variables
+        next_variable_to_solve = unassigned_variables.pop
 
-      sort_unassigned_variables
-      next_variable_to_solve = unassigned_variables.pop
-
-      begin
-        solve_variable(next_variable_to_solve)
-        assigned_variables.push(next_variable_to_solve)
-      rescue NoMoreValuesToTry => e
-        unassigned_variables.push(next_variable_to_solve)
-        backtrack(e)
+        begin
+          solve_variable(next_variable_to_solve)
+          assigned_variables.push(next_variable_to_solve)
+        rescue NoMoreValuesToTry => e
+          unassigned_variables.push(next_variable_to_solve)
+          backtrack(e)
+        end
       end
-      
-      solve_variables
     end
 
 

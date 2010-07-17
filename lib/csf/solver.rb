@@ -98,7 +98,7 @@ module ConstraintSolver
         elsif l1 > l2
           ret = -1
         else
-          ret = pa1.variable.id <=> pa2.variable.id
+          ret = pa1.variable.id.to_s <=> pa2.variable.id.to_s
         end
         ret
       end

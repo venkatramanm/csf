@@ -59,10 +59,20 @@ module ConstraintSolver
     end
 
     def try_next_value(variable_assignment)
-      variable_assignment.value
-      problem.constraints.each do |c|
-        c.propagate(variable_assignment,assigned_variables,unassigned_variables)
+
+      sum_domain_length_after_firing_constraints = unassigned_variables.reduce(0) do |sum,uv|
+        sum + uv.domain.length
       end
+
+      begin
+        sum_domain_length_before_firing_constraints = sum_domain_length_after_firing_constraints
+        problem.constraints.each do |c|
+          c.propagate(variable_assignment,assigned_variables,unassigned_variables)
+        end
+        sum_domain_length_after_firing_constraints = unassigned_variables.reduce(0) do |sum,uv|
+          sum + uv.domain.length
+        end
+      end until (sum_domain_length_after_firing_constraints == sum_domain_length_before_firing_constraints)
     end
 
     def backtrack(e = nil)

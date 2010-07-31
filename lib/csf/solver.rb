@@ -98,8 +98,8 @@ module ConstraintSolver
       end
     end
 
-    def sort_unassigned_variables
-      unassigned_variables.sort! do |pa1,pa2|
+    def default_sort_unassiged_variables(un_assigned_variables_array)
+      un_assigned_variables_array.sort! do |pa1,pa2|
         ret = 0
         l1 = pa1.domain.length
         l2 = pa2.domain.length
@@ -108,9 +108,21 @@ module ConstraintSolver
         elsif l1 > l2
           ret = -1
         else
-          ret = pa1.variable.id.to_s <=> pa2.variable.id.to_s
+          if (pa1.variable.respond_to?(:<=>)) then
+            ret = pa1.variable <=> pa2.variable
+          else
+            ret = pa1.variable.id.to_s <=> pa2.variable.id.to_s
+          end
         end
         ret
+      end
+    end
+    
+    def sort_unassigned_variables
+      if problem.respond_to?(:sort_unassigned_variables) then
+        problem.send(:sort_unassigned_variables,unassigned_variables)
+      else
+        default_sort_unassiged_variables(unassigned_variables)
       end
     end
 

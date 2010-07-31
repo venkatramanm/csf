@@ -16,7 +16,7 @@ module ConstraintSolver
     #  add_constraint do |working_variable_assignment,assigned_variables,un_assigned_variables|
     #     ...
     #  end
-    def add_constraint(constraint,&constraint_proc)
+    def add_constraint(constraint=nil,&constraint_proc)
       if (constraint)
         if block_given? then
           raise Exception.new("Only one of constraint object or block can be passed")

@@ -31,13 +31,14 @@ module ConstraintSolver
       while !unassigned_variables.empty?
         sort_unassigned_variables
         next_variable_to_solve = unassigned_variables.pop
-
-        begin
-          solve_variable(next_variable_to_solve)
-          assigned_variables.push(next_variable_to_solve)
-        rescue NoMoreValuesToTry => e
-          unassigned_variables.push(next_variable_to_solve)
-          backtrack(e)
+        timer_trace("#{self.class.name}:solve_variable_block") do
+          begin
+            solve_variable(next_variable_to_solve)
+            assigned_variables.push(next_variable_to_solve)
+          rescue NoMoreValuesToTry => e
+            unassigned_variables.push(next_variable_to_solve)
+            backtrack(e)
+          end
         end
       end
     end
@@ -59,42 +60,49 @@ module ConstraintSolver
     end
 
     def try_next_value(variable_assignment)
-
-      sum_domain_length_after_firing_constraints = unassigned_variables.reduce(0) do |sum,uv|
-        sum + uv.domain.length
-      end
-
-      begin
-        sum_domain_length_before_firing_constraints = sum_domain_length_after_firing_constraints
-        problem.constraints.each do |c|
-          c.propagate(variable_assignment,assigned_variables,unassigned_variables)
-        end
+      timer_trace("#{self.class.name}.try_next_value") do
         sum_domain_length_after_firing_constraints = unassigned_variables.reduce(0) do |sum,uv|
           sum + uv.domain.length
         end
-      end until (sum_domain_length_after_firing_constraints == sum_domain_length_before_firing_constraints)
+
+        begin
+          sum_domain_length_before_firing_constraints = sum_domain_length_after_firing_constraints
+          problem.constraints.each do |c|
+            c.propagate(variable_assignment,assigned_variables,unassigned_variables)
+          end
+          sum_domain_length_after_firing_constraints = unassigned_variables.reduce(0) do |sum,uv|
+            sum + uv.domain.length
+          end
+        end until (sum_domain_length_after_firing_constraints == sum_domain_length_before_firing_constraints)
+      end
     end
 
     def backtrack(e = nil)
-      last_solved_variable = assigned_variables.pop
-      if (last_solved_variable) then
-        last_solved_variable.invalidate
-        clear_check_points
-        unassigned_variables.push(last_solved_variable)
-      elsif (e != nil)
-        raise e
+      timer_trace("#{self.class.name} backtrack") do
+        last_solved_variable = assigned_variables.pop
+        if (last_solved_variable) then
+          last_solved_variable.invalidate
+          clear_check_points
+          unassigned_variables.push(last_solved_variable)
+        elsif (e != nil)
+          raise e
+        end
       end
     end
 
     def create_check_points
-      unassigned_variables.each do |v|
-        v.create_checkpoint
+      timer_trace("#{self.class.name} create_check_points") do
+        unassigned_variables.each do |v|
+          v.create_checkpoint
+        end
       end
     end
 
     def clear_check_points
-      unassigned_variables.each do |v|
-        v.clear_checkpoint
+      timer_trace("#{self.class.name} clear_check_points") do
+        unassigned_variables.each do |v|
+          v.clear_checkpoint
+        end
       end
     end
 
@@ -119,10 +127,12 @@ module ConstraintSolver
     end
     
     def sort_unassigned_variables
-      if problem.respond_to?(:sort_unassigned_variables) then
-        problem.send(:sort_unassigned_variables,unassigned_variables)
-      else
-        default_sort_unassiged_variables(unassigned_variables)
+      timer_trace("#{self.class.name} sort_unassigned_variables") do
+        if problem.respond_to?(:sort_unassigned_variables) then
+          problem.send(:sort_unassigned_variables,unassigned_variables)
+        else
+          default_sort_unassiged_variables(unassigned_variables)
+        end
       end
     end
 

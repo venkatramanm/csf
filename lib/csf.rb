@@ -2,6 +2,7 @@
 # and open the template in the editor.
 
 module ConstraintSolver
+  require 'csf/core_ext.rb'
   autoload :ConstraintViolation ,'csf/constraint_violation'
   autoload :ProcConstraint ,'csf/constraint_violation'
   autoload :AbstractConstraint ,'csf/constraint_violation'

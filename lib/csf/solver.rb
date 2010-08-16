@@ -106,7 +106,7 @@ module ConstraintSolver
       end
     end
 
-    def default_sort_unassiged_variables(un_assigned_variables_array)
+    def default_sort_unassigned_variables(un_assigned_variables_array)
       un_assigned_variables_array.sort! do |pa1,pa2|
         ret = 0
         l1 = pa1.domain.length
@@ -131,7 +131,7 @@ module ConstraintSolver
         if problem.respond_to?(:sort_unassigned_variables) then
           problem.send(:sort_unassigned_variables,unassigned_variables)
         else
-          default_sort_unassiged_variables(unassigned_variables)
+          default_sort_unassigned_variables(unassigned_variables)
         end
       end
     end

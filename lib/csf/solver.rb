@@ -60,6 +60,7 @@ module ConstraintSolver
     end
 
     def try_next_value(variable_assignment)
+      sort_domain(variable_assignment,assigned_variables,unassigned_variables)
       timer_trace("#{self.class.name}.try_next_value") do
         sum_domain_length_after_firing_constraints = unassigned_variables.reduce(0) do |sum,uv|
           sum + uv.domain.length
@@ -125,7 +126,11 @@ module ConstraintSolver
         ret
       end
     end
-    
+    def sort_domain(variable_assignment,assigned_variables,unassigned_variables)
+      if problem.respond_to?(:sort_domain) then
+        problem.send(:sort_domain,variable_assignment,assigned_variables,unassigned_variables)
+      end
+    end
     def sort_unassigned_variables
       timer_trace("#{self.class.name} sort_unassigned_variables") do
         if problem.respond_to?(:sort_unassigned_variables) then

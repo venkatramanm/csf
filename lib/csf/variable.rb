@@ -10,6 +10,12 @@ module ConstraintSolver
       self.domain = array
     end
 
+    def deep_clone
+      cloned = super()
+      cloned.domain = self.domain.deep_clone
+      cloned.id  = self.id.deep_clone
+      cloned
+    end
   end
 
   class IntegerVariable < ConstraintSolver::Variable

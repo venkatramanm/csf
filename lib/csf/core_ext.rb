@@ -1,4 +1,7 @@
 class Object
+  def deep_clone
+    clone
+  end
   def start_timers
     @timers_started = true
     @total_time = {}
@@ -31,4 +34,31 @@ class Object
     @timers_started = false
     @total_time.clear
   end
+end
+class Hash
+  def deep_clone
+    clone_hash = {}
+    each do |k,v|
+      clone_hash[k] = v.deep_clone
+    end
+    clone_hash
+  end
+end
+class Array
+  def deep_clone
+    clone_array =[]
+    each do |entry|
+      clone_array.push(entry.deep_clone)
+    end
+    clone_array
+  end
+end
+class Symbol
+  def deep_clone ; self ; end
+end
+class Fixnum
+  def deep_clone ; self ; end
+end
+class Float
+  def deep_clone ; self ; end
 end

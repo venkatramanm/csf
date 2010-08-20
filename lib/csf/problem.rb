@@ -37,6 +37,13 @@ module ConstraintSolver
         end
         a_hash
     end
+
+    def deep_clone
+      cloned = super()
+      cloned.variables = self.variables.deep_clone
+      cloned.constraints = self.constraints.deep_clone
+      cloned
+    end
   end
 
 
